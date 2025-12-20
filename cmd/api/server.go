@@ -27,7 +27,6 @@ func (app *application) serve() error {
 	go func() {
 		quit := make(chan os.Signal, 1)
 		signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
-
 		s := <-quit
 
 		app.logger.Info("shutting down server", "signal", s.String())
@@ -37,7 +36,7 @@ func (app *application) serve() error {
 
 		err := srv.Shutdown(ctx)
 		if err != nil {
-			shutdownError <- srv.Shutdown(ctx)
+			shutdownError <- err
 		}
 
 		app.logger.Info("completing background tasks", "addr", srv.Addr)
