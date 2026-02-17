@@ -45,10 +45,13 @@ db/migrations/new:
 ## tidy: format all .go files and tidy module dependencies
 .PHONY: tidy
 tidy:
-	@echo 'Formatting .go files...'
-	go fmt ./...
+	@echo 'Verifying and vendoring module dependencies...'
+	go mod verify
+	go mod vendor
 	@echo 'Tidying up dependencies...'
 	go mod tidy
+	@echo 'Formatting .go files...'
+	go fmt ./...
 
 ## audit: run quality control checks
 .PHONY: audit
